@@ -1,0 +1,88 @@
+22/02/2021
+
+1) Use "man" command to find out the resources to change the hostname of my computer
+	sudo hostname newHostName
+
+2) Find out which version of kernel using "man" command
+	uname -r
+	
+---------------------------------
+
+23/02/2021
+
+1) Create three folder in a particular location as /tmp/data/bolly , /tmp/data/holly , /tmp/data/tolly in one command
+	mkdir -p {tmp/data/bolly,tmp/data/holly,tmp/data/tolly}
+
+2) Go to /etc and copy all the files you have starting with name a, b, c or d. Copy that data to the /tmp/data location
+	cp ../../../etc/[abcd]* tmp/data
+
+3) From the above files, if the file name starts with a or b, take to bolly, if it starts with c or d, take to holly
+	mv tmp/data/[ab]* tmp/data/bolly
+	mv tmp/data/[cd]* tmp/data/holly
+
+4) Take those file which are greater than 40MB to tolly
+	find tmp/data -typef -size +40M -exec mv -nv{} tmp/data/tolly/ \;
+
+5) Create a tar file of each folder {bolly,holly,tolly} in a desktop folder named as "MoviesData" & make sure the tar files are present with its respective names
+	mkdir MoviesData/; tar -cf MoviesData/bolly.tar tmp/data/bolly;  tar -cf MoviesData/holly.tar tmp/data/holly; tar -cf MoviesData/tolly.tar tmp/data/tolly;
+
+---------------------------------
+
+24/02/2021
+
+1) Create 4 users with names tushar, nana, jaya and maulik. Make sure every user gets the home directory
+	sudo adduser tushar
+	sudo adduser nana
+	sudo adduser maulik
+	sudo adduser jaya
+
+2) Set expiry of password to 90 days
+	sudo passwd -x 90 tushar
+	sudo passwd -x 90 nana
+	sudo passwd -x 90 maulik
+	sudo passwd -x 90 jaya
+
+3) Create group marketing and add tushar and nana
+	sudo groupadd marketing
+	sudo usermod -g marketing tushar
+	sudo usermod -g marketing nana	
+
+4) Create group it and add jaya and maulik
+	sudo groupadd it
+	sudo usermod -g it maulik
+	sudo usermod -g it jaya
+
+5) Create group as capgemini and add all users as secondary group to it
+	sudo groupadd capgemini
+	sudo usermod -aG capgemini tushar
+	sudo usermod -aG capgemini nana
+	sudo usermod -aG capgemini maulik
+	sudo usermod -aG capgemini jaya
+	 
+6) Add a new user with any name and the user id for this one should be 2001. Also set the shell for that user to {sh shell}. Add this user into the existing group named capgemini and give its comment while creating user as "Capgemini employee for Big Data", all in a single command without using semicolon and && operator
+	sudo useradd -u 2001 -s /bin/sg -G capgemini -c "Capgemini employee for Big Data" userName
+
+---------------------------------
+
+25/02/2021
+
+1) Set the umask value to 022 & it should be permanent. Try to see the files & folder created after checking the umask
+	sudo gedit ~/.bashrc
+	Add umask 022 to the document, save it and then logout and login
+
+2) Again change the umask value to the default value
+	sudo gedit ~/.bashrc
+	Remove umask 022 to the document, save it and then logout and login
+
+3) Create files by root & see that other user & group can't access them. Files created by other user can be accessed by the group owners
+	su root
+	touch lock.txt
+	chmod go-r lock.txt
+
+	su achal
+	touch access.txt
+	chmod g+rw access.txt
+	chmod o-r access.txt
+
+4) Create a directory on the desktop with the name as CapgeminiFolder. Make sure the members of the group i.e "BigDataEmplyee" should be able to access the data inside the directory and other users can't access it. Make sure one user can't access or write the file of other user present in the above shared directory. But make sure, the user {manager} he should be able to access all the data & can remove the files
+
